@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cruciverba Collaborativo</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./scripts/data.js"></script>
+    <script src="./scripts/ui-generator.js"></script>
+    <script src="./scripts/game-logic.js"></script>
+    <script src="./scripts/broadcast-communication.js"></script>
+
+
+</head>
+
+<body>
+
+    <header>
+        <h1>Cruciverba Sincronizzato</h1>
+    </header>
+
+    <section class="dashboard" aria-label="Statistiche di gioco">
+        <div class="stat-box">
+            <span class="stat-label">Tempo</span>
+            <div class="stat-value" id="timer">00:00</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Punti Squadra 1</span>
+            <div class="stat-value" id="scoreTeam1">0</div>
+        </div>
+        <div class="stat-box">
+            <span class="stat-label">Punti Squadra 2</span>
+            <div class="stat-value" id="scoreTeam2">0</div>
+        </div>
+    </section>
+
+    <main class="game-container">
+
+        <section class="grid-container">
+            <div class="crossword-grid" id="crosswordGrid">
+            </div>
+        </section>
+
+        <section class="clues-container" id="clues">
+        </section>
+
+    </main>
+
+    <div class="sync-indicator" id="syncStatus">
+        <span class="status-dot"></span>
+        <span id="syncText">Canale Sincronizzato</span>
+    </div>
+
+</body>
+
+<script> createGrid() </script>
+
+</html>
