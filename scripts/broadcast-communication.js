@@ -18,9 +18,9 @@ function handleEvent(event) {
     };
     sessionChannel.postMessage(message);
     console.log('Notification sent to other tabs.');
+    handleAction(btnAction);
 }
 
-// 5. Clean up when the channel is no longer needed (e.g., page unload)
 window.addEventListener('beforeunload', () => {
     sessionChannel.close();
 });

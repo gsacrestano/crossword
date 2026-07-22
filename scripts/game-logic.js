@@ -3,16 +3,16 @@ function handleAction(action) {
         case 'add-point-team1':
             increaseScore(1)
             break;
-        case 'add-point-team1':
-            increaseScore(1)
+        case 'add-point-team2':
+            increaseScore(2)
             break;
         case 'start-timer':
-            console.log("Handle")
             startTimer(30)
             break;
         case 'stop-timer':
+            stopTimer = true;
             break;
-        case 'stop-timer':
+        case 'show-word':
             break;
         default:
             console.log(`Action: ${action} not present`);
@@ -27,16 +27,17 @@ function increaseScore(teamNumber) {
 }
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+let stopTimer = true;
 
 async function startTimer(seconds) {
-
-    console.log("Timer")
+    stopTimer = false;
     var timer = document.getElementById("timer")
-    console.log(timer)
-    for (let i = 0; i <= seconds; i++) {
+
+    for (let i = 1; i <= seconds && stopTimer == false; i++) {
         timer.innerText = i.toString();
         await delay(1000);
     }
-
+    await delay(1000);
+    timer.innerText = "0"
 
 }

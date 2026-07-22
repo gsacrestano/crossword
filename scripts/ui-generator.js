@@ -1,12 +1,9 @@
-/**
- * Generates the grid in the Index html
- */
-
 function createGrid() {
 
     var col = words[0].length;
     var row = words.length;
 
+    console.log(`Col: ${col} - Row: ${row}`)
     const containerId = 'crosswordGrid';
 
     for (var i = 0; i < row; i++)
