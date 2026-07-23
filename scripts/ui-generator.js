@@ -1,30 +1,39 @@
+/**
+ * The dimensions of the crossword grid (rows and columns).
+ * 
+ * @type {[number, number]}
+ */
+const [row_size, col_size] = [10, 10]
+
+/**
+ * Initializes and populates the crossword grid by iterating over the defined dimensions.
+ * It dynamically injects each cell into the DOM and displays the first word's clue.
+ * 
+ * @returns {void}
+ */
 function createGrid() {
 
-    var col = words[0].length;
-    var row = words.length;
-
-    console.log(`Col: ${col} - Row: ${row}`)
     const containerId = 'crosswordGrid';
 
-    for (var i = 0; i < row; i++)
-        for (var j = 0; j < col; j++) {
+    for (var i = 0; i < row_size; i++)
+        for (var j = 0; j < col_size; j++) {
             injectCell(i, j, containerId);
             console.log("Injected");
         }
 
-    injectClue("clues", "across", cluesAcross);
-    injectClue("clues", "down", cluesDown);
+    injectClue(words[0].clue);
 }
 
 
 /**
- * Generates and appends a crossword cell dynamically.
- * @param {number} row - The row index.
- * @param {number} col - The column index.
- * @param {string} containerId - The ID of the grid container.
- * @param {string|null} clueNumber - The number to display, or null if empty.
+ * Generates and appends a crossword cell dynamically into the specified container.
+ * 
+ * @param {number} row - The row index of the cell.
+ * @param {number} col - The column index of the cell.
+ * @param {string} container - The DOM ID of the grid container where the cell will be appended.
+ * @param {string|number|null} [clueNumber=null] - The number to display inside the cell, or null if empty.
+ * @returns {void}
  */
-
 function injectCell(row, col, container, clueNumber = null,) {
     const cell = document.createElement('div');
     cell.className = 'cell';
@@ -42,7 +51,6 @@ function injectCell(row, col, container, clueNumber = null,) {
                autocomplete="off" 
                spellcheck="false">
     `;
-    console.log(container)
 
     document.getElementById(container).appendChild(cell);
 }
@@ -50,34 +58,14 @@ function injectCell(row, col, container, clueNumber = null,) {
 
 
 /**
- * Dynamically creates and injects a single clue column (Across or Down) with its list of items into the DOM.
+ * Dynamically updates the current clue element in the DOM with the provided text.
  * 
- * @param {string} container - The HTML ID of the parent element where the clue column will be appended.
- * @param {string} direction - The title of the column (e.g., "Across" or "Down").
- * @param {Array<Array<string|number>>} clues - An array of arrays, where each sub-array represents a clue:
- *                                               c[0] contains the clue text (string).
- *                                               c[1] contains the clue number (number or string).
+ * @param {string} clue - The text of the clue to display.
+ * @returns {void}
  */
+function injectClue(clue) {
 
-function injectClue(container, direction, clues) {
-
-    const clue = document.createElement('div');
-    clue.className = 'clue-column';
-
-    const header = document.createElement("h2")
-    header.innerText = direction
-    clue.appendChild(header)
-
-    const ul = document.createElement("ul")
-    ul.className = 'clues-list';
-    clue.appendChild(ul)
-    for (const c of clues) {
-        const li = document.createElement("li")
-        li.className = "clue-item"
-        li.innerHTML = `<strong> ${c[1]}.</strong> ${c[0]}`
-        ul.appendChild(li)
-    }
-
-    document.getElementById(container).appendChild(clue)
+    const clueElement = document.getElementById("current-clue");
+    clueElement.innerText = clue
 
 }

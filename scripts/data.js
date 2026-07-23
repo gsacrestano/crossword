@@ -1,30 +1,39 @@
-// Solution of the xcross
+/**
+ * Define the strictly allowed values for the direction
+ * @typedef {"across" | "down"} Direction
+ */
 
+/**
+ * Define the exact shape of our word object
+ * @typedef {Object} CrosswordWord
+ * @property {string} id
+ * @property {string} text
+ * @property {Direction} direction
+ * @property {{row: number, col: number}} startPosition
+ * @property {string} clue
+ */
+
+/**
+ * Factory function to create a validated word object
+ * @param {string} text
+ * @param {Direction} direction - Must be strictly "across" or "down"
+ * @param {number} row
+ * @param {number} col
+ * @param {string} [clue=""] - Optional parameter
+ * @returns {CrosswordWord}
+ */
+function createWord(text, direction, row, col, clue = "") {
+    return {
+        text,
+        direction,
+        startPosition: { row, col },
+        clue
+    };
+}
+
+// Data entry remains clean and is now fully type-checked by the IDE
+/** @type {CrosswordWord[]} */
 const words = [
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I'],
-    ['C', 'I', 'A', 'O', 'C', 'I', 'A', 'O', 'C', 'I']
-]
-
-const cluesAcross = [
-    ["Test Across", 1],
-    ["Test Across", 2],
-    ["Test Across", 3],
-    ["Test Across", 4],
-    ["Test Across", 5]
-]
-
-const cluesDown = [
-    ["Test Down", 1],
-    ["Test Down", 2],
-    ["Test Down", 3],
-    ["Test Down", 4],
-    ["Test Down", 5]
-]
+    createWord("WORD", "across", 0, 0, "First Clue"),
+    createWord("OTHER", "down", 0, 0, "Second Clue")
+];
