@@ -108,3 +108,4 @@ function showNextWord() {
         injectClue(current_word.clue)
 
 }
+

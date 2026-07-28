@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Cruciverba</title>
     <link rel="stylesheet" href="./style.css">
-     <script src="./scripts/game-logic.js"></script>
+    <script src="./scripts/ui-generator.js"></script>
+    <script src="./scripts/data.js"></script>
+    <script src="./scripts/game-logic.js"></script>
     <script src="./scripts/broadcast-communication.js"></script>
+    <script src="./scripts/sounds-player.js"></script>
     <style>
 
     </style>
@@ -40,15 +43,18 @@
         <div class="control-section">
             <h2>Assegnazione Punti</h2>
             <div class="button-group">
-                <button class="btn" data-action="add-point-team1" onclick="handleEvent(event)">+1 Punti Squadra 1</button>
-                <button class="btn" data-action="add-point-team2" onclick="handleEvent(event)">+1 Punti Squadra 2</button>
+                <button class="btn" data-action="add-point-team1" onclick="handleEvent(event)">+1 Punti Squadra
+                    1</button>
+                <button class="btn" data-action="add-point-team2" onclick="handleEvent(event)">+1 Punti Squadra
+                    2</button>
             </div>
         </div>
 
         <div class="control-section">
             <h2>Meccaniche di Gioco</h2>
             <div class="button-group">
-                <button class="btn btn-primary" data-action="start-timer" onclick="handleEvent(event)">Fai partire il timer</button>
+                <button class="btn btn-primary" data-action="start-timer" onclick="handleEvent(event)">Fai partire il
+                    timer</button>
                 <button class="btn" data-action="stop-timer" onclick="handleEvent(event)">Pausa Timer</button>
                 <button class="btn" data-action="show-word" onclick="handleEvent(event)">Mostra Parola</button>
             </div>
@@ -57,12 +63,19 @@
         <div class="control-section">
             <h2>Soundbar Effetti</h2>
             <div class="button-group">
-                <button class="btn btn-sound" data-sound="correct">✅ Risposta Corretta</button>
-                <button class="btn btn-sound" data-sound="wrong">❌ Errore</button>
-                <button class="btn btn-sound" data-sound="countdown">⏱️ Ultimi Secondi</button>
-                <button class="btn btn-sound" data-sound="victory">🎉 Vittoria dello Schema</button>
+                <button class="btn btn-sound" data-sound="correct" onclick="handleSoundBtn(event)">✅ Risposta
+                    Corretta</button>
+                <button class="btn btn-sound" data-sound="wrong" onclick="handleSoundBtn(event)">❌ Errore</button>
+                <button class="btn btn-sound" data-sound="victory" onclick="handleSoundBtn(event)">🎉 Vittoria dello
+                    Schema</button>
             </div>
         </div>
+        <section class="clues-container">
+            <div class="clue-column">
+                <h3 class="clues-list" id="current-clue">
+                    </ul>
+            </div>
+        </section>
 
     </main>
 
@@ -71,11 +84,8 @@
         </div>
     </section>
 
-    <div class="sync-indicator" id="syncStatus">
-        <span class="status-dot"></span>
-        <span id="syncText">Regia attiva (BroadcastChannel pronto)</span>
-    </div>
 
+    <script> createGrid() </script>
 </body>
 
 </html>
