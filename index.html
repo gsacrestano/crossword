@@ -1,57 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cruciverba Collaborativo</title>
-    <link rel="stylesheet" href="./style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CruciBetel</title>
+    <link rel="stylesheet" href="./style.css" />
     <script src="./scripts/data.js"></script>
     <script src="./scripts/ui-generator.js"></script>
     <script src="./scripts/game-logic.js"></script>
     <script src="./scripts/broadcast-communication.js"></script>
+  </head>
 
-
-</head>
-
-<body>
-
+  <body>
     <header>
-        <h1>Cruciverba Sincronizzato</h1>
+      <h1>CruciBetel</h1>
     </header>
 
-    <section class="dashboard" aria-label="Statistiche di gioco">
-        <div class="stat-box">
-            <span class="stat-label">Tempo</span>
-            <div class="stat-value" id="timer">00:00</div>
-        </div>
-        <div class="stat-box">
-            <span class="stat-label">Punti Squadra 1</span>
-            <div class="stat-value" id="scoreTeam1">0</div>
-        </div>
-        <div class="stat-box">
-            <span class="stat-label">Punti Squadra 2</span>
-            <div class="stat-value" id="scoreTeam2">0</div>
-        </div>
-    </section>
+    <div class="timer-card">
+      <span class="timer-label">Tempo</span>
+      <div class="timer-value" id="timer">00:00</div>
+    </div>
 
     <main class="game-container">
+      <section class="grid-container">
+        <div class="crossword-grid" id="crosswordGrid"></div>
+      </section>
 
-        <section class="grid-container">
-            <div class="crossword-grid" id="crosswordGrid">
-            </div>
+      <aside
+        class="dashboard"
+        id="dashboardId"
+        aria-label="Statistiche di gioco"
+      >
+        <section
+          class="current-clue-container"
+          aria-label="Definizione corrente"
+        >
+          <div class="clue-box">
+            <h2 class="clue-title">Definizione</h2>
+            <p class="clue-text" id="current-clue"></p>
+          </div>
         </section>
-
-        <section class="clues-container">
-            <div class="clue-column">
-                <h3 class="clues-list" id="current-clue"></ul>
-            </div>
-        </section>
-
+      </aside>
     </main>
+  </body>
+  ˚
 
-</body>˚
-
-<script> createGrid() </script>
-
+  <script>
+    injectComponent();
+  </script>
 </html>

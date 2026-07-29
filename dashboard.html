@@ -1,91 +1,128 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard Cruciverba</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css" />
     <script src="./scripts/ui-generator.js"></script>
     <script src="./scripts/data.js"></script>
     <script src="./scripts/game-logic.js"></script>
     <script src="./scripts/broadcast-communication.js"></script>
     <script src="./scripts/sounds-player.js"></script>
-    <style>
+    <style></style>
+  </head>
 
-    </style>
-</head>
-
-<body>
-
+  <body>
     <header>
-        <h1>Regia Cruciverba</h1>
+      <h1>Regia Cruciverba</h1>
     </header>
 
-
-    <section class="dashboard" aria-label="Statistiche di gioco">
-        <div class="stat-box">
-            <span class="stat-label">Tempo</span>
-            <div class="stat-value" id="timer">00:00</div>
-        </div>
-        <div class="stat-box">
-            <span class="stat-label">Punti Squadra 1</span>
-            <div class="stat-value" id="scoreTeam1">0</div>
-        </div>
-        <div class="stat-box">
-            <span class="stat-label">Punti Squadra 2</span>
-            <div class="stat-value" id="scoreTeam2">0</div>
-        </div>
-    </section>
-
-    <main class="controls-panel">
-
+    <main class="regia-layout">
+      <section class="controls-wrapper" aria-label="Pannello dei comandi">
         <div class="control-section">
-            <h2>Assegnazione Punti</h2>
-            <div class="button-group">
-                <button class="btn" data-action="add-point-team1" onclick="handleEvent(event)">+1 Punti Squadra
-                    1</button>
-                <button class="btn" data-action="add-point-team2" onclick="handleEvent(event)">+1 Punti Squadra
-                    2</button>
-            </div>
+          <h2>Assegnazione Punti</h2>
+          <div class="button-group">
+            <button
+              class="btn"
+              data-action="add-point-team1"
+              onclick="handleEvent(event)"
+            >
+              +1 Punti Squadra 1
+            </button>
+            <button
+              class="btn"
+              data-action="add-point-team2"
+              onclick="handleEvent(event)"
+            >
+              +1 Punti Squadra 2
+            </button>
+          </div>
         </div>
 
         <div class="control-section">
-            <h2>Meccaniche di Gioco</h2>
-            <div class="button-group">
-                <button class="btn btn-primary" data-action="start-timer" onclick="handleEvent(event)">Fai partire il
-                    timer</button>
-                <button class="btn" data-action="stop-timer" onclick="handleEvent(event)">Pausa Timer</button>
-                <button class="btn" data-action="show-word" onclick="handleEvent(event)">Mostra Parola</button>
-            </div>
+          <h2>Meccaniche di Gioco</h2>
+          <div class="button-group">
+            <button
+              class="btn btn-primary"
+              data-action="start-timer"
+              onclick="handleEvent(event)"
+            >
+              Fai partire il timer
+            </button>
+            <button
+              class="btn"
+              data-action="stop-timer"
+              onclick="handleEvent(event)"
+            >
+              Pausa Timer
+            </button>
+            <button
+              class="btn"
+              data-action="show-word"
+              onclick="handleEvent(event)"
+            >
+              Mostra Parola
+            </button>
+          </div>
         </div>
 
         <div class="control-section">
-            <h2>Soundbar Effetti</h2>
-            <div class="button-group">
-                <button class="btn btn-sound" data-sound="correct" onclick="handleSoundBtn(event)">✅ Risposta
-                    Corretta</button>
-                <button class="btn btn-sound" data-sound="wrong" onclick="handleSoundBtn(event)">❌ Errore</button>
-                <button class="btn btn-sound" data-sound="victory" onclick="handleSoundBtn(event)">🎉 Vittoria dello
-                    Schema</button>
-            </div>
+          <h2>Soundbar Effetti</h2>
+          <div class="button-group">
+            <button
+              class="btn btn-sound"
+              data-sound="correct"
+              onclick="handleSoundBtn(event)"
+            >
+              ✅ Risposta Corretta
+            </button>
+            <button
+              class="btn btn-sound"
+              data-sound="wrong"
+              onclick="handleSoundBtn(event)"
+            >
+              ❌ Errore
+            </button>
+            <button
+              class="btn btn-sound"
+              data-sound="victory"
+              onclick="handleSoundBtn(event)"
+            >
+              🎉 Vittoria dello Schema
+            </button>
+          </div>
         </div>
-        <section class="clues-container">
-            <div class="clue-column">
-                <h3 class="clues-list" id="current-clue">
-                    </ul>
-            </div>
+        <section
+          class="current-clue-container"
+          aria-label="Definizione corrente"
+        >
+          <div class="clue-box">
+            <h2 class="clue-title">Definizione</h2>
+            <p class="clue-text" id="current-clue"></p>
+          </div>
         </section>
+      </section>
 
+      <aside
+        class="dashboard"
+        id="dashboardId"
+        aria-label="Statistiche di gioco"
+      >
+        <div class="timer-card">
+          <span class="timer-label">Tempo</span>
+          <div class="timer-value" id="timer">00:00</div>
+        </div>
+      </aside>
     </main>
 
+    <br />
     <section class="grid-container">
-        <div class="crossword-grid" id="crosswordGrid">
-        </div>
+      <div class="crossword-grid" id="crosswordGrid"></div>
     </section>
 
-
-    <script> createGrid() </script>
-</body>
-
+    <script>
+      injectComponent();
+    </script>
+  </body>
 </html>
