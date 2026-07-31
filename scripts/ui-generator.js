@@ -1,4 +1,4 @@
-/* global words */
+/* global words, jolly */
 /**
  * The dimensions of the crossword grid (rows and columns).
  *
@@ -93,23 +93,22 @@ function injectClue(clue) {
 function injectSquad(num, container) {
   const cell = document.createElement('div');
   cell.className = 'team-card';
+
   cell.innerHTML = `
-                    <div class="team-details">
-                    <span class="team-name">Squadra ${num}</span>
-                    <div class="team-jolly" id="jollyTeam${num}">
-                        <img src="icon/icon-answer.png" alt="Jolly disponibile" class="jolly-icon">
-                        <img src="icon/icon-call.png" alt="Jolly disponibile" class="jolly-icon">
-                        <img src="icon/icon-clue.png" alt="Jolly disponibile" class="jolly-icon">
-                        <img src="icon/icon-public.png" alt="Jolly disponibile" class="jolly-icon">
-                        <img src="icon/icon-start-letter.png" alt="Jolly disponibile" class="jolly-icon">
-                        <img src="icon/icon-vocals.png" alt="Jolly disponibile" class="jolly-icon">
-                    </div>
-                </div>
-                <div class="team-score">
-                    <span class="score-label">Score</span>
-                    <div class="score-value" id="scoreTeam${num}">0</div>
-                </div>
+        <div class="team-details">
+            <span class="team-name">Squadra ${num}</span>
+            <div class="team-jolly" id="jollyTeam${num}">
+                ${jolly.map((j) => `<img src="icon/icon-${j}.png" alt="Jolly ${j} disponibile" class="jolly-icon">`).join('')}
+            </div>
+        </div>       
+        <div class="team-score">
+            <span class="score-label">Score</span>
+            <div class="score-value" id="scoreTeam${num}">0</div>
+        </div>
     `;
 
-  document.getElementById(container).appendChild(cell);
+  const containerElement = document.getElementById(container);
+  if (containerElement) {
+    containerElement.appendChild(cell);
+  }
 }

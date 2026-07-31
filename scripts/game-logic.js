@@ -1,9 +1,9 @@
-/* global words, injectClue */
+/* global words, jolly, team_num, playSound, injectClue */
 
 /**
  * Handles game actions by routing them to the appropriate functions.
  *
- * @param {string} action - The action identifier to execute (e.g., 'add-point-team1', 'start-timer').
+ * @param {string} action - The action identifier to execute (e.g., 'add-point-team1', 'show-vocals').
  * @returns {void}
  */
 // eslint-disable-next-line no-unused-vars
@@ -16,6 +16,7 @@ function handleAction(action) {
       increaseScore(2);
       break;
     case 'start-timer':
+      playSound('countDown');
       startTimer(30);
       break;
     case 'stop-timer':
@@ -24,6 +25,15 @@ function handleAction(action) {
     case 'show-word':
       showNextWord();
       break;
+    case 'show-vocals':
+    case 'show-start':
+    case 'help-public':
+    case 'give-answer':
+    case 'make-call':
+    case 'get-clue':
+      handleJolly(action, parseInt(prompt('Team number?')));
+      break;
+
     default:
       console.log(`Action: ${action} not present`);
   }
@@ -75,7 +85,7 @@ async function startTimer(seconds) {
     await delay(1000);
   }
 
-  if (!stopTimer) {
+  if (stopTimer) {
     await delay(1000);
     timer.innerText = '0';
   }
@@ -97,31 +107,10 @@ let current_word_index = 0;
 function showNextWord() {
   let current_word = words[current_word_index];
 
-  // Safety check in case we reached the end of the words array
-  if (!current_word) return;
-
-  const [row, col] = [
-    current_word.startPosition.row,
-    current_word.startPosition.col,
-  ];
-
-  if (current_word.direction === 'across') {
-    // Using 'let' restricts 'i' to this loop block
-    for (let i = 0; i < current_word.text.length; i++) {
-      // Using 'const' restricts 'targetInput' to this loop iteration
-      const targetInput = document.querySelector(
-        `[data-cell-id="cell-${row}-${col + i}"]`,
-      );
-      if (targetInput) targetInput.value = current_word.text.charAt(i);
-    }
+  if (!current_word) {
+    return;
   } else {
-    // We can safely reuse 'i' here because it's a separate block
-    for (let i = 0; i < current_word.text.length; i++) {
-      const targetInput = document.querySelector(
-        `[data-cell-id="cell-${row + i}-${col}"]`,
-      );
-      if (targetInput) targetInput.value = current_word.text.charAt(i);
-    }
+    showCharacters(current_word, 'all');
   }
 
   current_word_index++;
@@ -131,5 +120,83 @@ function showNextWord() {
 
   if (current_word !== undefined) {
     injectClue(current_word.clue);
+  }
+}
+
+/**
+ * Reveals characters of the current crossword word on the grid based on the selected mode.
+ * Supports revealing all characters or selectively showing only the vowels.
+ *
+ * @param {Object} current_word - The word object containing text, direction, and startPosition.
+ * @param {string} mode - The reveal mode: "all" to show the entire word, "vocals" to show only vowels.
+ * @returns {void}
+ */
+function showCharacters(current_word, mode) {
+  if (mode !== 'all' && mode !== 'vocals') {
+    console.error(`Invalid mode provided: ${mode}`);
+    return;
+  }
+
+  const vocals = ['A', 'E', 'I', 'O', 'U'];
+  const { row, col } = current_word.startPosition;
+
+  for (let i = 0; i < current_word.text.length; i++) {
+    const targetRow = current_word.direction === 'across' ? row : row + i;
+    const targetCol = current_word.direction === 'across' ? col + i : col;
+
+    const targetInput = document.querySelector(
+      `[data-cell-id="cell-${targetRow}-${targetCol}"]`,
+    );
+
+    if (targetInput) {
+      const char = current_word.text.charAt(i).toUpperCase();
+      if (mode === 'all' || vocals.includes(char)) {
+        targetInput.value = char;
+      }
+    }
+  }
+}
+
+/**
+ * Processes the consumption of a joker (jolly) for a specific team.
+ * Visually marks the corresponding icon as used in the DOM and executes
+ * the associated game logic (e.g., revealing vowels or the starting letter).
+ *
+ * @param {string} jollyLabel - The specific action label of the jolly (e.g., 'show-vocals', 'show-start').
+ * @param {number} teamNumber - The ID number of the team utilizing the joker (e.g., 1 or 2).
+ * @returns {void}
+ */
+function handleJolly(jollyLabel, teamNumber) {
+  if (isNaN(teamNumber) || teamNumber > team_num) {
+    console.error(`Problem with teamNumber is ${teamNumber}`);
+    return;
+  }
+
+  const indexJolly = jolly.indexOf(jollyLabel);
+  const containerId = `jollyTeam${teamNumber}`;
+  const iconElements = document
+    .getElementById(containerId)
+    .querySelectorAll('img');
+
+  // Safety check to ensure the icon exists before manipulating its classList
+  if (iconElements[indexJolly]) {
+    iconElements[indexJolly].classList.add('used');
+  }
+
+  let current_word = words[current_word_index];
+
+  if (jollyLabel === 'show-vocals') {
+    showCharacters(current_word, 'vocals');
+  }
+
+  if (jollyLabel === 'show-start') {
+    const { row, col } = current_word.startPosition;
+    const targetInput = document.querySelector(
+      `[data-cell-id="cell-${row}-${col}"]`,
+    );
+
+    if (targetInput) {
+      targetInput.value = current_word.text.charAt(0);
+    }
   }
 }
