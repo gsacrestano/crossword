@@ -1,4 +1,4 @@
-/* global words, jolly, team_num, playSound, injectClue */
+/* global words, jolly, team_num, playSound, injectClue, animateCellFlip */
 
 /**
  * Handles game actions by routing them to the appropriate functions.
@@ -153,6 +153,7 @@ function showCharacters(current_word, mode) {
       if (mode === 'all' || vocals.includes(char)) {
         targetInput.value = char;
       }
+      animateCellFlip(targetInput, i);
     }
   }
 }
