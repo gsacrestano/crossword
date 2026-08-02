@@ -1,4 +1,4 @@
-/* global words, jolly */
+/* global words, jolly, handleEvent */
 /**
  * The dimensions of the crossword grid (rows and columns).
  *
@@ -28,14 +28,28 @@ function injectComponent() {
   container.style.setProperty('--grid-rows', row_size);
   container.style.setProperty('--grid-cols', col_size);
 
+  let indexWords = 0;
+  let indexClue = 0;
   for (let i = 0; i < row_size; i++)
     for (var j = 0; j < col_size; j++) {
-      injectCell(i, j, containerId);
+      if (indexWords < words.length && words[indexWords].direction == 'down')
+        indexWords++;
+      if (
+        indexWords < words.length &&
+        words[indexWords].startPosition.row == i &&
+        words[indexWords].startPosition.col == j &&
+        words[indexWords].direction == 'across'
+      ) {
+        injectCell(i, j, containerId, ++indexClue);
+        indexWords++;
+      } else injectCell(i, j, containerId);
     }
 
   for (let i = 1; i <= team_num; i++) injectSquad(i, dashboardId);
 
   injectClue(words[0].clue);
+
+  injectButtons('stats-control-section');
 }
 
 /**
@@ -111,4 +125,48 @@ function injectSquad(num, container) {
   if (containerElement) {
     containerElement.appendChild(cell);
   }
+}
+/**
+ * Injects dynamic buttons into a specified DOM container.
+ * Generates a set of point buttons for each team and a set of "jolly" action buttons,
+ * then appends them to the DOM efficiently using a DocumentFragment.
+ *
+ * @param {string} containerId - The ID of the HTML container element where buttons will be appended.
+ * @requires global:team_num - The total number of teams (expected to be a number).
+ * @requires global:jolly - An array of strings representing jolly actions.
+ * @requires global:handleEvent - The callback function attached to the click event of the generated buttons.
+ * @returns {void}
+ */
+function injectButtons(containerId) {
+  const container = document.getElementById(containerId);
+
+  // Check if the container exists
+  if (!container) {
+    console.error(`Problems with container id: ${containerId}`);
+    return;
+  }
+
+  const fragment = document.createDocumentFragment();
+
+  // Points buttons
+  for (let i = 1; i <= team_num; i++) {
+    const button = document.createElement('button');
+    button.className = 'btn';
+    button.dataset.action = `add-point-team${i}`;
+    button.textContent = `+1 Punti squadra ${i}`;
+    button.addEventListener('click', handleEvent);
+    fragment.appendChild(button);
+  }
+
+  // Jolly button injections
+  jolly.forEach((j) => {
+    const button = document.createElement('button');
+    button.className = 'btn';
+    button.dataset.action = j;
+    button.textContent = `${j.replace('-', ' ')}`;
+    button.addEventListener('click', handleEvent);
+    fragment.appendChild(button);
+  });
+
+  container.appendChild(fragment);
 }

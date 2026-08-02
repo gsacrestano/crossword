@@ -21,24 +21,9 @@
     <main class="regia-layout">
       <section class="controls-wrapper" aria-label="Pannello dei comandi">
         <div class="control-section">
-          <h2>Assegnazione Punti</h2>
+          <h2>Gestione Squadre</h2>
           <br />
-          <div class="button-group">
-            <button
-              class="btn"
-              data-action="add-point-team1"
-              onclick="handleEvent(event)"
-            >
-              +1 Punti Squadra 1
-            </button>
-            <button
-              class="btn"
-              data-action="add-point-team2"
-              onclick="handleEvent(event)"
-            >
-              +1 Punti Squadra 2
-            </button>
-          </div>
+          <div class="button-group" id="stats-control-section"></div>
         </div>
 
         <div class="control-section">
@@ -65,48 +50,6 @@
               onclick="handleEvent(event)"
             >
               Mostra Parola
-            </button>
-            <button
-              class="btn"
-              data-action="show-vocals"
-              onclick="handleEvent(event)"
-            >
-              Mostra Vocali
-            </button>
-            <button
-              class="btn"
-              data-action="show-start"
-              onclick="handleEvent(event)"
-            >
-              Mostra Iniziale
-            </button>
-            <button
-              class="btn"
-              data-action="help-public"
-              onclick="handleEvent(event)"
-            >
-              Aiuto dal pubblico
-            </button>
-            <button
-              class="btn"
-              data-action="give-answer"
-              onclick="handleEvent(event)"
-            >
-              Dai risposta
-            </button>
-            <button
-              class="btn"
-              data-action="make-call"
-              onclick="handleEvent(event)"
-            >
-              Effettua chiamata
-            </button>
-            <button
-              class="btn"
-              data-action="get-clue"
-              onclick="handleEvent(event)"
-            >
-              Indizio
             </button>
           </div>
         </div>
