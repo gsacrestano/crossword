@@ -1,6 +1,7 @@
+import { handleAction } from './game-logic.js';
 /**
  * The BroadcastChannel instance used for cross-tab communication.
- * 
+ *
  * @type {BroadcastChannel}
  */
 const sessionChannel = new BroadcastChannel('user_session');
@@ -12,9 +13,8 @@ const sessionChannel = new BroadcastChannel('user_session');
  * @param {MessageEvent} event - The message event containing the data payload.
  */
 sessionChannel.onmessage = (event) => {
-    const { action } = event.data;
-    console.log(`Received action: ${action}`);
-    handleAction(action);
+  console.log(`Received action: ${event.data.action}`);
+  handleAction(event.data);
 };
 
 /**
@@ -24,32 +24,25 @@ sessionChannel.onmessage = (event) => {
  * @param {MessageEvent} event - The error event.
  */
 sessionChannel.onmessageerror = (event) => {
-    console.error('Failed to deserialize message:', event);
+  console.error('Failed to deserialize message:', event);
 };
 
 /**
- * Handles UI events, extracts the requested action from the element's dataset,
- * broadcasts the action to other connected tabs, and executes it locally.
+ * Dispatches a game action to both local execution and cross-tab broadcasting.
  *
- * @param {Event} event - The DOM event triggered by the user interaction.
- * @returns {void}
+ * @param {string} action - The action identifier (e.g., 'show-vocals', 'add-point-team1').
+ * @param {Object} [payload={}] - Additional data object (e.g., { teamNumber: 1 }).
  */
-function handleEvent(event) {
-    var btnAction = event.currentTarget.dataset.action
-    console.log(`Action required: ` + btnAction)
-    const message = {
-        action: btnAction,
-    };
-    sessionChannel.postMessage(message);
-    console.log('Notification sent to other tabs.');
-    handleAction(btnAction);
+export function dispatchGameAction(action, payload = {}) {
+  const message = { action, payload };
+  sessionChannel.postMessage(message);
+  handleAction(message);
 }
 
 /**
  * Cleans up and closes the BroadcastChannel when the window is about to unload
  * to prevent memory leaks and dangling connections.
  */
-// 5. Clean up when the channel is no longer needed (e.g., page unload)
 window.addEventListener('beforeunload', () => {
-    sessionChannel.close();
+  sessionChannel.close();
 });

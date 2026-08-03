@@ -1,4 +1,11 @@
 /**
+ * Defines the total number of teams participating in the crossword game.
+ *
+ * @constant {number}
+ */
+export const TEAM_NUM = 2;
+
+/**
  * Define the strictly allowed values for the direction
  * @typedef {"across" | "down"} Direction
  */
@@ -33,7 +40,7 @@ function createWord(text, direction, row, col, clue = '') {
 
 // Data entry remains clean and is now fully type-checked by the IDE
 /** @type {CrosswordWord[]} */
-const words = [
+export const WORDS = [
   createWord('WORD', 'across', 0, 0, 'First Clue'),
   createWord('OTHER', 'down', 0, 0, 'Second Clue'),
 ];
@@ -44,7 +51,7 @@ const words = [
  *
  * @constant {string[]}
  */
-const jolly = [
+export const JOLLY = [
   'show-vocals',
   'show-start',
   'help-public',

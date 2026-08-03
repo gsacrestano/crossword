@@ -23,7 +23,7 @@ const DEFAULT_FLIP_TIMING = {
  * @param {number} [index=0] - Multiplier for staggered delay effect.
  * @param {number} [staggerDelay=80] - Delay in milliseconds per index.
  */
-function animateCellFlip(element, index = 0, staggerDelay = 80) {
+export function animateCellFlip(element, index = 0, staggerDelay = 80) {
   if (!element) return;
 
   // Retrieve closest parent container or fallback to target element

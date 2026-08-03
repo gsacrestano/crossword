@@ -1,14 +1,17 @@
-/* global words, jolly, team_num, playSound, injectClue, animateCellFlip */
+import { animateCellFlip } from './animation.js';
+import { WORDS, JOLLY, TEAM_NUM } from './data.js';
+import { playSound } from './sounds-player.js';
+import { injectClue } from './ui-generator.js';
 
 /**
  * Handles game actions by routing them to the appropriate functions.
  *
- * @param {string} action - The action identifier to execute (e.g., 'add-point-team1', 'show-vocals').
+ * @param {Object} message - The action message object containing 'action' and 'payload'.
  * @returns {void}
  */
-// eslint-disable-next-line no-unused-vars
-function handleAction(action) {
-  switch (action) {
+
+export function handleAction(message) {
+  switch (message.action) {
     case 'add-point-team1':
       increaseScore(1);
       break;
@@ -31,11 +34,11 @@ function handleAction(action) {
     case 'give-answer':
     case 'make-call':
     case 'get-clue':
-      handleJolly(action, parseInt(prompt('Team number?')));
+      handleJolly(message.action, message.payload.teamNumber);
       break;
 
     default:
-      console.log(`Action: ${action} not present`);
+      console.log(`Action: ${message.action} not present`);
   }
 }
 
@@ -105,7 +108,7 @@ let current_word_index = 0;
  * @returns {void}
  */
 function showNextWord() {
-  let current_word = words[current_word_index];
+  let current_word = WORDS[current_word_index];
 
   if (!current_word) {
     return;
@@ -116,7 +119,7 @@ function showNextWord() {
   current_word_index++;
 
   // Reassigning the variable instead of redeclaring it with 'var'
-  current_word = words[current_word_index];
+  current_word = WORDS[current_word_index];
 
   if (current_word !== undefined) {
     injectClue(current_word.clue);
@@ -168,12 +171,12 @@ function showCharacters(current_word, mode) {
  * @returns {void}
  */
 function handleJolly(jollyLabel, teamNumber) {
-  if (isNaN(teamNumber) || teamNumber > team_num) {
+  if (isNaN(teamNumber) || teamNumber > TEAM_NUM) {
     console.error(`Problem with teamNumber is ${teamNumber}`);
     return;
   }
 
-  const indexJolly = jolly.indexOf(jollyLabel);
+  const indexJolly = JOLLY.indexOf(jollyLabel);
   const containerId = `jollyTeam${teamNumber}`;
   const iconElements = document
     .getElementById(containerId)
@@ -184,7 +187,7 @@ function handleJolly(jollyLabel, teamNumber) {
     iconElements[indexJolly].classList.add('used');
   }
 
-  let current_word = words[current_word_index];
+  let current_word = WORDS[current_word_index];
 
   if (jollyLabel === 'show-vocals') {
     showCharacters(current_word, 'vocals');

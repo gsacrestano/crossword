@@ -1,4 +1,6 @@
-/* global words, jolly, handleEvent */
+import { WORDS, JOLLY, TEAM_NUM } from './data.js';
+import { handleUIAction, handleSoundBtn } from './ui-events.js';
+
 /**
  * The dimensions of the crossword grid (rows and columns).
  *
@@ -7,21 +9,14 @@
 const [row_size, col_size] = [15, 15];
 
 /**
- * Defines the total number of teams participating in the crossword game.
- *
- * @constant {number}
- */
-const team_num = 2;
-
-/**
  * Initializes and populates the crossword grid by iterating over the defined dimensions.
  * It dynamically injects each cell into the DOM and displays the first word's clue.
  * It injects each stat's squads box
  *
  * @returns {void}
  */
-// eslint-disable-next-line no-unused-vars
-function injectComponent() {
+
+export function injectComponent() {
   const containerId = 'crosswordGrid';
   const container = document.getElementById(containerId);
   const dashboardId = 'dashboardId';
@@ -32,22 +27,22 @@ function injectComponent() {
   let indexClue = 0;
   for (let i = 0; i < row_size; i++)
     for (var j = 0; j < col_size; j++) {
-      if (indexWords < words.length && words[indexWords].direction == 'down')
+      if (indexWords < WORDS.length && WORDS[indexWords].direction == 'down')
         indexWords++;
       if (
-        indexWords < words.length &&
-        words[indexWords].startPosition.row == i &&
-        words[indexWords].startPosition.col == j &&
-        words[indexWords].direction == 'across'
+        indexWords < WORDS.length &&
+        WORDS[indexWords].startPosition.row == i &&
+        WORDS[indexWords].startPosition.col == j &&
+        WORDS[indexWords].direction == 'across'
       ) {
         injectCell(i, j, containerId, ++indexClue);
         indexWords++;
       } else injectCell(i, j, containerId);
     }
 
-  for (let i = 1; i <= team_num; i++) injectSquad(i, dashboardId);
+  for (let i = 1; i <= TEAM_NUM; i++) injectSquad(i, dashboardId);
 
-  injectClue(words[0].clue);
+  injectClue(WORDS[0].clue);
 
   injectButtons('stats-control-section');
 }
@@ -90,7 +85,7 @@ function injectCell(row, col, container, clueNumber = null) {
  * @param {string} clue - The text of the clue to display.
  * @returns {void}
  */
-function injectClue(clue) {
+export function injectClue(clue) {
   const clueElement = document.getElementById('current-clue');
   clueElement.innerText = clue;
 }
@@ -112,7 +107,7 @@ function injectSquad(num, container) {
         <div class="team-details">
             <span class="team-name">Squadra ${num}</span>
             <div class="team-jolly" id="jollyTeam${num}">
-                ${jolly.map((j) => `<img src="icon/icon-${j}.png" alt="Jolly ${j} disponibile" class="jolly-icon">`).join('')}
+                ${JOLLY.map((j) => `<img src="icon/icon-${j}.png" alt="Jolly ${j} disponibile" class="jolly-icon">`).join('')}
             </div>
         </div>       
         <div class="team-score">
@@ -132,9 +127,6 @@ function injectSquad(num, container) {
  * then appends them to the DOM efficiently using a DocumentFragment.
  *
  * @param {string} containerId - The ID of the HTML container element where buttons will be appended.
- * @requires global:team_num - The total number of teams (expected to be a number).
- * @requires global:jolly - An array of strings representing jolly actions.
- * @requires global:handleEvent - The callback function attached to the click event of the generated buttons.
  * @returns {void}
  */
 function injectButtons(containerId) {
@@ -149,24 +141,28 @@ function injectButtons(containerId) {
   const fragment = document.createDocumentFragment();
 
   // Points buttons
-  for (let i = 1; i <= team_num; i++) {
+  for (let i = 1; i <= TEAM_NUM; i++) {
     const button = document.createElement('button');
     button.className = 'btn';
     button.dataset.action = `add-point-team${i}`;
     button.textContent = `+1 Punti squadra ${i}`;
-    button.addEventListener('click', handleEvent);
     fragment.appendChild(button);
   }
 
   // Jolly button injections
-  jolly.forEach((j) => {
+  JOLLY.forEach((j) => {
     const button = document.createElement('button');
     button.className = 'btn';
     button.dataset.action = j;
     button.textContent = `${j.replace('-', ' ')}`;
-    button.addEventListener('click', handleEvent);
     fragment.appendChild(button);
   });
 
   container.appendChild(fragment);
+
+  const actionButtons = document.querySelectorAll('[data-action]');
+  actionButtons.forEach((b) => b.addEventListener('click', handleUIAction));
+
+  const soundsButtons = document.querySelectorAll('[data-sound]');
+  soundsButtons.forEach((b) => b.addEventListener('click', handleSoundBtn));
 }

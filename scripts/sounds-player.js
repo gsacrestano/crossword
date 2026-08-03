@@ -12,25 +12,13 @@ const soundEffects = {
 };
 
 /**
- * Event handler for UI buttons that trigger sound effects.
- * It extracts the sound identifier from the button's 'data-sound' attribute.
- *
- * @param {Event} event - The DOM event triggered by the user interaction.
- * @returns {void}
- */
-// eslint-disable-next-line no-unused-vars
-function handleSoundBtn(event) {
-  if (event) playSound(event.currentTarget.dataset.sound);
-}
-
-/**
  * Plays a pre-loaded sound effect by its identifier.
  * Automatically resets the playback time to allow rapid successive plays.
  *
  * @param {string} sound - The key identifier of the sound (e.g., 'correct', 'wrong').
  * @returns {void}
  */
-function playSound(sound) {
+export function playSound(sound) {
   const audio = soundEffects[sound];
 
   if (audio) {
