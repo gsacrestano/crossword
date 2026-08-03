@@ -5,10 +5,10 @@
  * @type {Object<string, HTMLAudioElement>}
  */
 const soundEffects = {
-  correct: new Audio('../sounds/correct-sound.mp3'),
-  wrong: new Audio('../sounds/wrong-sound.mp3'),
-  victory: new Audio('../sounds/victory-sound.mp3'),
-  countDown: new Audio('../sounds/countDown-sound.mp3'),
+  correct: new Audio('./sounds/correct-sound.mp3'),
+  wrong: new Audio('./sounds/wrong-sound.mp3'),
+  victory: new Audio('./sounds/victory-sound.mp3'),
+  countDown: new Audio('./sounds/countDown-sound.mp3'),
 };
 
 /**
