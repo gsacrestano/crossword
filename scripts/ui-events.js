@@ -1,5 +1,5 @@
 import { dispatchGameAction } from './broadcast-communication.js';
-import { JOLLY } from './data.js';
+import { JOLLY, POINTS_OPERATIONS } from './data.js';
 import { playSound } from './sounds-player.js';
 /**
  * Primary UI click event handler.
@@ -15,7 +15,7 @@ export function handleUIAction(event) {
   const payload = {};
 
   // Gathers team number if the specific action requires it
-  if (JOLLY.includes(btnAction)) {
+  if (JOLLY.includes(btnAction) || POINTS_OPERATIONS.includes(btnAction)) {
     const input = prompt('Team number?');
 
     // If user cancelled or closed the prompt, abort execution cleanly

@@ -1,4 +1,4 @@
-import { handleAction } from './game-logic.js';
+import { handleAction } from './ui-game-handler.js';
 /**
  * The BroadcastChannel instance used for cross-tab communication.
  *

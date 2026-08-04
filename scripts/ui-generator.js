@@ -1,12 +1,13 @@
-import { WORDS, JOLLY, TEAM_NUM } from './data.js';
+import {
+  WORDS,
+  JOLLY,
+  TEAM_NUM,
+  STARTING_INDEX,
+  ROW_SIZE,
+  COL_SIZE,
+  POINTS_OPERATIONS,
+} from './data.js';
 import { handleUIAction, handleSoundBtn } from './ui-events.js';
-
-/**
- * The dimensions of the crossword grid (rows and columns).
- *
- * @type {[number, number]}
- */
-const [row_size, col_size] = [15, 15];
 
 /**
  * Initializes and populates the crossword grid by iterating over the defined dimensions.
@@ -20,24 +21,23 @@ export function injectComponent() {
   const containerId = 'crosswordGrid';
   const container = document.getElementById(containerId);
   const dashboardId = 'dashboardId';
-  container.style.setProperty('--grid-rows', row_size);
-  container.style.setProperty('--grid-cols', col_size);
+  container.style.setProperty('--grid-rows', ROW_SIZE);
+  container.style.setProperty('--grid-cols', COL_SIZE);
 
-  let indexWords = 0;
-  let indexClue = 0;
-  for (let i = 0; i < row_size; i++)
-    for (var j = 0; j < col_size; j++) {
-      if (indexWords < WORDS.length && WORDS[indexWords].direction == 'down')
-        indexWords++;
-      if (
-        indexWords < WORDS.length &&
-        WORDS[indexWords].startPosition.row == i &&
-        WORDS[indexWords].startPosition.col == j &&
-        WORDS[indexWords].direction == 'across'
-      ) {
-        injectCell(i, j, containerId, ++indexClue);
-        indexWords++;
-      } else injectCell(i, j, containerId);
+  let activeCellsSet = getActiveCells(WORDS);
+  console.log(activeCellsSet);
+
+  for (let i = 0; i < ROW_SIZE; i++)
+    for (var j = 0; j < COL_SIZE; j++) {
+      let coordinates = `${i},${j}`;
+      let clue =
+        activeCellsSet.has(coordinates) == false
+          ? -1
+          : STARTING_INDEX.includes(coordinates)
+            ? parseInt(STARTING_INDEX.indexOf(coordinates)) + 1
+            : null;
+
+      injectCell(i, j, containerId, clue);
     }
 
   for (let i = 1; i <= TEAM_NUM; i++) injectSquad(i, dashboardId);
@@ -45,6 +45,33 @@ export function injectComponent() {
   injectClue(WORDS[0].clue);
 
   injectButtons('stats-control-section');
+}
+
+/**
+ * Calculates and returns a Set containing the coordinates of all cells
+ * that belong to at least one word in the crossword puzzle.
+ *
+ * @param {Array} wordsArray - The array of word objects (from data.js).
+ * @returns {Set<string>} A Set of stringified coordinates (e.g., "13,11").
+ */
+function getActiveCells(wordsArray) {
+  const activeCells = new Set();
+
+  wordsArray.forEach((word) => {
+    const { row, col } = word.startPosition;
+    const length = word.text.length;
+
+    for (let i = 0; i < length; i++) {
+      // Calculate the target row and col based on the word's direction
+      const targetRow = word.direction === 'across' ? row : row + i;
+      const targetCol = word.direction === 'across' ? col + i : col;
+
+      // Add the stringified coordinate to the Set
+      activeCells.add(`${targetRow},${targetCol}`);
+    }
+  });
+
+  return activeCells;
 }
 
 /**
@@ -59,14 +86,17 @@ export function injectComponent() {
 function injectCell(row, col, container, clueNumber = null) {
   const cell = document.createElement('div');
   cell.className = 'cell';
-  cell.dataset.row = row.toString();
-  cell.dataset.col = col.toString();
 
-  const spanHTML = clueNumber
-    ? `<span class="cell-number">${clueNumber}</span>`
-    : '';
+  if (clueNumber != -1) {
+    cell.className = 'cell';
+    cell.dataset.row = row.toString();
+    cell.dataset.col = col.toString();
 
-  cell.innerHTML = `
+    const spanHTML = clueNumber
+      ? `<span class="cell-number">${clueNumber}</span>`
+      : '';
+
+    cell.innerHTML = `
         ${spanHTML}
         <input type="text" 
                class="cell-input" 
@@ -75,6 +105,7 @@ function injectCell(row, col, container, clueNumber = null) {
                autocomplete="off" 
                spellcheck="false">
     `;
+  } else cell.classList.add('black');
 
   document.getElementById(container).appendChild(cell);
 }
@@ -140,16 +171,16 @@ function injectButtons(containerId) {
 
   const fragment = document.createDocumentFragment();
 
-  // Points buttons
-  for (let i = 1; i <= TEAM_NUM; i++) {
-    const button = document.createElement('button');
-    button.className = 'btn';
-    button.dataset.action = `add-point-team${i}`;
-    button.textContent = `+1 Punti squadra ${i}`;
-    fragment.appendChild(button);
-  }
+  // Point operations buttons injections
+  POINTS_OPERATIONS.forEach((operations) => {
+    const buttonIncrease = document.createElement('button');
+    buttonIncrease.className = 'btn';
+    buttonIncrease.dataset.action = operations;
+    buttonIncrease.textContent = `${operations.replaceAll('-', ' ')}`;
+    fragment.appendChild(buttonIncrease);
+  });
 
-  // Jolly button injections
+  // Jolly buttons injections
   JOLLY.forEach((j) => {
     const button = document.createElement('button');
     button.className = 'btn';
