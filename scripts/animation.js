@@ -11,7 +11,7 @@ const VERTICAL_FLIP_KEYFRAMES = [
 
 // Default timing configuration
 const DEFAULT_FLIP_TIMING = {
-  duration: 400,
+  duration: 1200,
   easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
   iterations: 1,
 };

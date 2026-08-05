@@ -72,7 +72,7 @@ h1 {
 .team-card {
   display: flex;
   flex-direction: row;
-  width: 320px;
+  width: 500px;
   /* Fixed width to keep cards uniform */
   background-color: #fdfaf6;
   border: 2px solid #d0c9bc;
@@ -91,7 +91,7 @@ h1 {
 }
 
 .team-name {
-  font-size: 0.9rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #333333;
   margin-bottom: 0.5rem;
@@ -108,8 +108,8 @@ h1 {
 
 /* Base style for PNG icons */
 .jolly-icon {
-  width: 22px;
-  height: 22px;
+  width: 50px;
+  height: 50px;
   object-fit: contain;
   /* Prevents image distortion */
   transition:
@@ -151,7 +151,7 @@ h1 {
 }
 
 .timer-label {
-  font-size: 2rem;
+  font-size: 4rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #8a8276;
@@ -159,14 +159,14 @@ h1 {
 }
 
 .timer-value {
-  font-size: 1.5rem;
+  font-size: 3.5rem;
   font-weight: 600;
   color: #333333;
   font-variant-numeric: tabular-nums;
 }
 
 .score-label {
-  font-size: 0.75rem;
+  font-size: 1.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #8a8276;
@@ -174,7 +174,7 @@ h1 {
 }
 
 .score-value {
-  font-size: 1.75rem;
+  font-size: 2.75rem;
   font-weight: 600;
   color: #333333;
   font-variant-numeric: tabular-nums;
@@ -396,7 +396,7 @@ h1 {
 
 /* Top label */
 .clue-title {
-  font-size: 0.75rem;
+  font-size: 1.75rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -408,7 +408,7 @@ h1 {
 
 /* Clue text content */
 .clue-text {
-  font-size: 1.25rem;
+  font-size: 2.25rem;
   font-weight: 500;
   color: #333333;
   line-height: 1.5;

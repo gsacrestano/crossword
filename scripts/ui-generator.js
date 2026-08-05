@@ -42,8 +42,6 @@ export function injectComponent() {
 
   for (let i = 1; i <= TEAM_NUM; i++) injectSquad(i, dashboardId);
 
-  injectClue(WORDS[0].clue);
-
   injectButtons('stats-control-section');
 }
 
@@ -111,17 +109,6 @@ function injectCell(row, col, container, clueNumber = null) {
 }
 
 /**
- * Dynamically updates the current clue element in the DOM with the provided text.
- *
- * @param {string} clue - The text of the clue to display.
- * @returns {void}
- */
-export function injectClue(clue) {
-  const clueElement = document.getElementById('current-clue');
-  clueElement.innerText = clue;
-}
-
-/**
  * Dynamically generates and injects a team scoreboard card into the specified DOM container.
  * The generated card includes the team's identifier, a specific set of available jolly icons,
  * and a score counter initialized to zero.
@@ -179,6 +166,12 @@ function injectButtons(containerId) {
     buttonIncrease.textContent = `${operations.replaceAll('-', ' ')}`;
     fragment.appendChild(buttonIncrease);
   });
+
+  const button = document.createElement('button');
+  button.className = 'btn';
+  button.dataset.action = 'show-clue';
+  button.textContent = `show-clue`;
+  fragment.appendChild(button);
 
   // Jolly buttons injections
   JOLLY.forEach((j) => {

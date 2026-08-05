@@ -113,7 +113,7 @@ export const WORDS = [
   ),
   createWord('CRONICO', 'down', 3, 12, 'Lo è un male incurabile'),
   createWord('ORTICA', 'down', 6, 16, 'Pianta pungente'),
-  createWord('LAMEC', 'down', 4, 2, 'Il primo poligamo'),
+  createWord('LAMEC', 'across', 4, 2, 'Il primo poligamo'),
   createWord('MARTELLARE', 'across', 13, 7, 'La perdizione di Salomone'),
   createWord('SHAMPO', 'across', 5, 7, 'Lo fece Paolo a Pietro'),
   createWord('ANGOLO', 'across', 8, 0, 'Luogo adatto per il pollo'),

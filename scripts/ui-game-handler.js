@@ -1,8 +1,12 @@
 import { animateCellFlip } from './animation.js';
 import { WORDS, JOLLY, TEAM_NUM } from './data.js';
-import { decreasePoint, increasePoint } from './game-logic.js';
+import {
+  decreasePoint,
+  getCurrentWord,
+  nextWord,
+  increasePoint,
+} from './game-logic.js';
 import { playSound } from './sounds-player.js';
-import { injectClue } from './ui-generator.js';
 
 /**
  * Handles game actions by routing them to the appropriate functions.
@@ -21,7 +25,7 @@ export function handleAction(message) {
       break;
     case 'start-timer':
       playSound('countDown');
-      startTimer(30);
+      startTimer(15);
       break;
     case 'stop-timer':
       stopTimer = true;
@@ -37,7 +41,9 @@ export function handleAction(message) {
     case 'get-clue':
       handleJolly(message.action, message.payload.teamNumber);
       break;
-
+    case 'show-clue':
+      showClue();
+      break;
     default:
       console.log(`Action: ${message.action} not present`);
   }
@@ -109,34 +115,18 @@ async function startTimer(seconds) {
 }
 
 /**
- * Tracks the index of the currently active word in the crossword puzzle.
- *
- * @type {number}
- */
-let current_word_index = 0;
-
-/**
  * Reveals the characters of the current word directly in the DOM grid,
  * increments the index, and injects the clue for the following word.
  *
  * @returns {void}
  */
 function showNextWord() {
-  let current_word = WORDS[current_word_index];
+  let current_word = getCurrentWord();
 
-  if (!current_word) {
-    return;
-  } else {
+  if (!current_word) return;
+  else {
     showCharacters(current_word, 'all');
-  }
-
-  current_word_index++;
-
-  // Reassigning the variable instead of redeclaring it with 'var'
-  current_word = WORDS[current_word_index];
-
-  if (current_word !== undefined) {
-    injectClue(current_word.clue);
+    nextWord();
   }
 }
 
@@ -201,7 +191,7 @@ function handleJolly(jollyLabel, teamNumber) {
     iconElements[indexJolly].classList.add('used');
   }
 
-  let current_word = WORDS[current_word_index];
+  let current_word = getCurrentWord();
 
   if (jollyLabel === 'show-vocals') {
     showCharacters(current_word, 'vocals');
@@ -217,4 +207,15 @@ function handleJolly(jollyLabel, teamNumber) {
       targetInput.value = current_word.text.charAt(0);
     }
   }
+}
+
+/**
+ * Dynamically updates the current clue element in the DOM with the provided text.
+ *
+ * @returns {void}
+ */
+export function showClue() {
+  let currentWord = getCurrentWord();
+  const clueElement = document.getElementById('current-clue');
+  clueElement.innerText = currentWord.clue;
 }
