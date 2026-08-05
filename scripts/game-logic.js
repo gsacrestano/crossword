@@ -70,5 +70,9 @@ export function nextWord() {
  * @returns {CrosswordWord|undefined} The current crossword word object, or undefined if the index is out of bounds.
  */
 export function getCurrentWord() {
-  return WORDS[current_word_index];
+  let index =
+    current_word_index == WORDS.length
+      ? current_word_index - 1
+      : current_word_index;
+  return WORDS[index];
 }
