@@ -118,14 +118,15 @@ function injectCell(row, col, container, clueNumber = null) {
  * @returns {void}
  */
 function injectSquad(num, container) {
+  const nomeSquadra = num === 1 ? 'Pischelli' : 'Boomer';
   const cell = document.createElement('div');
   cell.className = 'team-card';
 
   cell.innerHTML = `
         <div class="team-details">
-            <span class="team-name">Squadra ${num}</span>
+            <span class="team-name">${nomeSquadra}</span>
             <div class="team-jolly" id="jollyTeam${num}">
-                ${JOLLY.map((j) => `<img src="icon/icon-${j}.png" alt="Jolly ${j} disponibile" class="jolly-icon">`).join('')}
+                ${JOLLY.map((j) => { return j == "reset-jolly" ? "" : `<img src="icon/icon-${j}.png" alt="Jolly ${j} disponibile" class="jolly-icon">`; }).join('')}
             </div>
         </div>       
         <div class="team-score">
@@ -186,7 +187,7 @@ function injectButtons(containerId) {
 
   const actionButtons = document.querySelectorAll('[data-action]');
   actionButtons.forEach((b) => b.addEventListener('click', handleUIAction));
-
+  
   const soundsButtons = document.querySelectorAll('[data-sound]');
   soundsButtons.forEach((b) => b.addEventListener('click', handleSoundBtn));
 }

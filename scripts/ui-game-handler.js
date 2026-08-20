@@ -44,6 +44,9 @@ export function handleAction(message) {
     case 'show-clue':
       showClue();
       break;
+    case 'reset-jolly':
+      resetJolly(message.payload.jollyLabel, message.payload.teamNumber);
+      break;
     default:
       console.log(`Action: ${message.action} not present`);
   }
@@ -165,6 +168,23 @@ function showCharacters(current_word, mode) {
   }
 }
 
+function resetJolly(jollyLabel, teamNumber) {
+  if (isNaN(teamNumber) || teamNumber > TEAM_NUM) {
+    console.error(`Problem with teamNumber is ${teamNumber}`);
+    return;
+  }
+  const indexJolly = jollyLabel;
+  const containerId = `jollyTeam${teamNumber}`;
+  const iconElements = document
+    .getElementById(containerId)
+    .querySelectorAll('img');
+
+  // Safety check to ensure the icon exists before manipulating its classList
+  if (iconElements[indexJolly]) {
+    iconElements[indexJolly].classList.remove('used');
+  }
+}
+
 /**
  * Processes the consumption of a joker (jolly) for a specific team.
  * Visually marks the corresponding icon as used in the DOM and executes
@@ -188,6 +208,9 @@ function handleJolly(jollyLabel, teamNumber) {
 
   // Safety check to ensure the icon exists before manipulating its classList
   if (iconElements[indexJolly]) {
+    if (iconElements[indexJolly].classList.contains('used')) {
+      return;
+    }
     iconElements[indexJolly].classList.add('used');
   }
 

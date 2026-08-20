@@ -10,7 +10,7 @@ export const TEAM_NUM = 2;
  *
  * @type {[number, number]}
  */
-export const [ROW_SIZE, COL_SIZE] = [16, 17];
+export const [ROW_SIZE, COL_SIZE] = [15, 16];
 
 /**
  * Define the strictly allowed values for the direction
@@ -48,77 +48,24 @@ function createWord(text, direction, row, col, clue = '') {
 // Data entry remains clean and is now fully type-checked by the IDE
 /** @type {CrosswordWord[]} */
 export const WORDS = [
-  createWord('ALBERO', 'across', 2, 2, 'Si riconosce dal suo frutto'),
-  createWord('SAUL', 'down', 1, 2, 'Il primo re di Israele'),
-  createWord('PEA', 'across', 0, 9, 'Trattamento di fine rapporto'),
-  createWord('VETRINA', 'across', 11, 10, 'Luogo di interessi'),
-  createWord(
-    'AMAT',
-    'down',
-    6,
-    0,
-    'Il re di questo paese mandò suo figlio Ioram a congratularsi col re Davide per la sconfitta inferta ad Adadezer',
-  ),
-  createWord('SATANA', 'down', 10, 8, 'L’originale serpente'),
-  createWord(
-    'GALLO',
-    'down',
-    4,
-    9,
-    'Il suo canto era legato a una profezia di Gesù',
-  ),
-  createWord(
-    'STRANO',
-    'down',
-    5,
-    7,
-    'Inconsueto, insolito, fuori dell’ordinario',
-  ),
-  createWord('EUD', 'down', 13, 11, 'Il giudice Mancino'),
-  createWord(
-    'ABNER',
-    'across',
-    6,
-    0,
-    'Gioab lo uccise per vendicare suo fratello Asael',
-  ),
-  createWord(
-    'HOMER',
-    'down',
-    7,
-    5,
-    'Misura per aridi e per l’olio pari a dieci bat',
-  ),
-  createWord(
-    'ANETO',
-    'down',
-    4,
-    3,
-    'Pianta dai semi aromatici di cui i farisei esigevano la decima',
-  ),
-  createWord('GELOSO', 'across', 10, 4, 'Non lo è l’amore'),
-  createWord(
-    'ACACIA',
-    'across',
-    3,
-    11,
-    'Il suo legno fu usato per l’arca del patto',
-  ),
-  createWord(
-    'TOSATI',
-    'across',
-    9,
-    11,
-    'Non lo erano i centomila montoni che il re di Moab pagò come tribute',
-  ),
-  createWord('CRONICO', 'down', 3, 12, 'Lo è un male incurabile'),
-  createWord('ORTICA', 'down', 6, 16, 'Pianta pungente'),
-  createWord('LAMEC', 'across', 4, 2, 'Il primo poligamo'),
-  createWord('MARTELLARE', 'across', 13, 7, 'La perdizione di Salomone'),
-  createWord('SHAMPO', 'across', 5, 7, 'Lo fece Paolo a Pietro'),
-  createWord('ANGOLO', 'across', 8, 0, 'Luogo adatto per il pollo'),
-  createWord('ANZIANITA', 'down', 5, 14, 'Status di perseveranza'),
-  createWord('ASTA', 'down', 0, 11, 'Assegnazione, valutazione'),
+  createWord('SATANA', 'across', 7, 9, 'L’originale serpente - 6 LETTERE'),
+  createWord('SAUL', 'down', 0, 9, 'Il primo re di Israele - 4 LETTERE'),
+  createWord('GALLO', 'across', 6, 0, 'Il suo canto era legato a una profezia di Gesù - 5 LETTERE'),
+  createWord('EUD', 'down', 3, 12, 'Il giudice mancino - 3 LETTERE'),
+  createWord('STRANO', 'across', 13, 2, 'Inconsueto, insolito, fuori dell’ordinario - 6 LETTERE'),
+  createWord('ANZIANITA', 'down', 3, 10, 'Non la hanno i pischelli - 9 LETTERE'),
+  createWord('VETRINA', 'down', 7, 5, 'La finestra tentatrice della Betel - 7 LETTERE'),
+  createWord('GELOSO', 'down', 2, 7, 'Non lo è l’amore - 6 LETTERE'),
+  createWord('KIGALI', 'across', 11, 7, 'La capitale di un paese che ci ha tolto forza lavoro - 6 LETTERE'),
+  createWord('TOSATI', 'across', 9, 5, 'I pecoroni non lo sono se zompano il taglio capelli - 6 LETTERE'),
+  createWord('ALBERO', 'down', 7, 14, 'Si riconosce dal suo frutto - 6 LETTERE'),
+  createWord('SHAMPO', 'down', 1, 4, 'Lo fece Paolo a Pietro - 6 LETTERE'),
+  createWord('PEA', 'down', 4, 1, 'Trattamento di fine rapporto - 3 LETTERE'),
+  createWord('ACACIA', 'down', 7, 12, 'Il suo legno fu usato per l’arca del patto - 6 LETTERE'),
+  createWord('MARTELLARE', 'across', 3, 3, 'L’hobby di Salomone - 10 LETTERE'),
+  createWord('LAMEC', 'down', 6, 3, 'Il primo poligamo menzionato nella Bibbia - 5 LETTERE'),
+  createWord('ANGOLO', 'across', 1, 9, 'Luogo adatto per il pollo - 6 LETTERE'),
+  createWord('ASTA', 'across', 1, 3, 'Assegnazione, valutazione - 4 LETTERE'),
 ];
 
 export const STARTING_INDEX = WORDS.map(
@@ -140,4 +87,5 @@ export const JOLLY = [
   'make-call',
   'get-clue',
   'give-answer',
+  'reset-jolly'
 ];
