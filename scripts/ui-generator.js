@@ -6,6 +6,7 @@ import {
   ROW_SIZE,
   COL_SIZE,
   POINTS_OPERATIONS,
+  TEAM_NAME,
 } from './data.js';
 import { handleUIAction, handleSoundBtn } from './ui-events.js';
 import { highlightWord } from './ui-game-handler.js';
@@ -120,13 +121,13 @@ function injectCell(row, col, container, clueNumber = null) {
  * @returns {void}
  */
 function injectSquad(num, container) {
-  const nomeSquadra = num === 1 ? 'Pischelli' : 'Boomer';
+  const squadName = TEAM_NAME[num] || `Team ${num}`;
   const cell = document.createElement('div');
   cell.className = 'team-card';
 
   cell.innerHTML = `
         <div class="team-details">
-            <span class="team-name">${nomeSquadra}</span>
+            <span class="team-name">${squadName}</span>
             <div class="team-jolly" id="jollyTeam${num}">
                 ${JOLLY.map((j) => {
                   return j == 'reset-jolly'
