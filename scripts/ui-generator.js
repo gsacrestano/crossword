@@ -8,6 +8,7 @@ import {
   POINTS_OPERATIONS,
 } from './data.js';
 import { handleUIAction, handleSoundBtn } from './ui-events.js';
+import { highlightWord } from './ui-game-handler.js';
 
 /**
  * Initializes and populates the crossword grid by iterating over the defined dimensions.
@@ -43,6 +44,7 @@ export function injectComponent() {
   for (let i = 1; i <= TEAM_NUM; i++) injectSquad(i, dashboardId);
 
   injectButtons('stats-control-section');
+  highlightWord(WORDS[0]);
 }
 
 /**
@@ -126,7 +128,11 @@ function injectSquad(num, container) {
         <div class="team-details">
             <span class="team-name">${nomeSquadra}</span>
             <div class="team-jolly" id="jollyTeam${num}">
-                ${JOLLY.map((j) => { return j == "reset-jolly" ? "" : `<img src="icon/icon-${j}.png" alt="Jolly ${j} disponibile" class="jolly-icon">`; }).join('')}
+                ${JOLLY.map((j) => {
+                  return j == 'reset-jolly'
+                    ? ''
+                    : `<img src="icon/icon-${j}.png" alt="Jolly ${j} disponibile" class="jolly-icon">`;
+                }).join('')}
             </div>
         </div>       
         <div class="team-score">
@@ -187,7 +193,7 @@ function injectButtons(containerId) {
 
   const actionButtons = document.querySelectorAll('[data-action]');
   actionButtons.forEach((b) => b.addEventListener('click', handleUIAction));
-  
+
   const soundsButtons = document.querySelectorAll('[data-sound]');
   soundsButtons.forEach((b) => b.addEventListener('click', handleSoundBtn));
 }

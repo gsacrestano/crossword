@@ -128,8 +128,10 @@ function showNextWord() {
 
   if (!current_word) return;
   else {
+    highlightWord(current_word);
     showCharacters(current_word, 'all');
     nextWord();
+    highlightWord(getCurrentWord());
   }
 }
 
@@ -164,6 +166,34 @@ function showCharacters(current_word, mode) {
         targetInput.value = char;
       }
       animateCellFlip(targetInput, i);
+    }
+  }
+}
+
+/**
+ * Toggles the background highlight color for the cells of a given word in the grid.
+ * It iterates through the length of the word and updates the background color
+ * of the corresponding DOM elements.
+ *
+ * @param {Object} word - The word object to be highlighted.
+ */
+export function highlightWord(word) {
+  const { row, col } = word.startPosition;
+
+  for (let i = 0; i < word.text.length; i++) {
+    const targetRow = word.direction === 'across' ? row : row + i;
+    const targetCol = word.direction === 'across' ? col + i : col;
+
+    const targetInput = document.querySelector(
+      `[data-cell-id="cell-${targetRow}-${targetCol}"]`,
+    );
+
+    if (targetInput) {
+      let color =
+        targetInput.style.backgroundColor === 'rgb(248, 131, 121)'
+          ? '#ffffff'
+          : '#F88379';
+      targetInput.style.backgroundColor = color;
     }
   }
 }
