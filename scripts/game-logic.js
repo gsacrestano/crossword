@@ -36,7 +36,7 @@ export function getPoints(teamNumber) {
 export function increasePoint(teamNumber) {
   let num = parseInt(teamNumber, 10);
   if (isNaN(num) || num > TEAM_NUM) return;
-  teamsPoint[num] = teamsPoint[num] + 1;
+  teamsPoint[num] = teamsPoint[num] + 2;
 
   return teamsPoint[num];
 }
