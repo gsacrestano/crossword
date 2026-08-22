@@ -1,5 +1,5 @@
 import { animateCellFlip } from './animation.js';
-import { WORDS, JOLLY, TEAM_NUM } from './data.js';
+import { JOLLY, TEAM_NUM } from './data.js';
 import {
   decreasePoint,
   getCurrentWord,

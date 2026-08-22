@@ -34,8 +34,8 @@ export function getPoints(teamNumber) {
  * @returns {number|undefined} The updated points of the team, or undefined if the input is invalid.
  */
 export function increasePoint(teamNumber) {
-  let num = parseInt(teamNumber, 10);
-  if (isNaN(num) || num > TEAM_NUM) return;
+  let num = parseInt(teamNumber, 10) - 1;
+  if (isNaN(num) || num >= TEAM_NUM) return;
   teamsPoint[num] = teamsPoint[num] + 2;
 
   return teamsPoint[num];
@@ -49,8 +49,8 @@ export function increasePoint(teamNumber) {
  * @returns {number|undefined} The updated points of the team, or undefined if the input is invalid.
  */
 export function decreasePoint(teamNumber) {
-  let num = parseInt(teamNumber, 10);
-  if (isNaN(num) || num > TEAM_NUM) return;
+  let num = parseInt(teamNumber, 10) - 1;
+  if (isNaN(num) || num >= TEAM_NUM) return;
   if (teamsPoint[num] > 0) teamsPoint[num] = teamsPoint[num] - 1;
   return teamsPoint[num];
 }
