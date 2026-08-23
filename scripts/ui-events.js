@@ -19,7 +19,13 @@ export function handleUIAction(event) {
     const input = prompt('Team number?');
 
     if (btnAction === 'reset-jolly') {
-      const jollyToReset = parseInt(prompt('Which jolly to reset? 1. show-vocals, 2. show-start, 3. help-public, 4. give-answer, 5. make-call, 6. get-clue'), 10)-1;
+      const jollyToReset =
+        parseInt(
+          prompt(
+            'Which jolly to reset? 1. show-vocals, 2. show-start, 3. help-public, 4. give-answer, 5. make-call, 6. get-clue',
+          ),
+          10,
+        ) - 1;
       payload.jollyLabel = jollyToReset;
     }
 

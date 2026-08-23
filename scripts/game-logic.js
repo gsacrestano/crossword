@@ -22,7 +22,7 @@ let current_word_index = 0;
  * @returns {number|undefined} The current points of the team, or undefined if the input is invalid.
  */
 export function getPoints(teamNumber) {
-  let num = parseInt(teamNumber, 10);
+  let num = parseInt(teamNumber, 10) - 1;
   if (isNaN(num) || num > TEAM_NUM) return;
   return teamsPoint[num];
 }
